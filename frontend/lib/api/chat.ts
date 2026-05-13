@@ -1,8 +1,9 @@
 import { parseSseEvent } from "@/lib/sse/parseSseEvent";
 import { handleAgentEvent } from "@/lib/sse/handleAgentEvent";
+import { BACKEND_BASE_URL } from "@/config/app";
 
 export async function streamChat(payload: Record<string, any>) {
-  const res = await fetch("/api/chat/stream", {
+  const res = await fetch(`${BACKEND_BASE_URL}/api/chat/stream`, {
     method: "POST",
     headers: { "Content-Type": "application/json", Accept: "text/event-stream" },
     body: JSON.stringify(payload),
