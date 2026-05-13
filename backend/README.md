@@ -1,17 +1,15 @@
-# Backend (FastAPI + Skill/Tool Registry)
+# Backend
 
-## Run
+实现了以下模块：
+- FastAPI API 层（chat/files/tasks/skills/tools/results）
+- Supervisor Agent Runtime（简化 LangGraph 风格节点规划）
+- Skill / Tool Registry
+- warehouse_customer_allocation_skill
+- 统一结果包（summary/map_data/charts/tables/files/logs）
 
+运行：
 ```bash
 cd backend
-python -m venv .venv
-source .venv/bin/activate
 pip install -r requirements.txt
-uvicorn app.main:app --reload
+PYTHONPATH=. uvicorn app.main:app --reload
 ```
-
-## Endpoints
-- `GET /health`
-- `GET /api/tools`
-- `GET /api/skills`
-- `POST /api/tasks`

@@ -1,17 +1,15 @@
-from typing import Callable
+from app.registry.schemas import ToolMeta
 
 
 class ToolRegistry:
     def __init__(self) -> None:
-        self._tools: dict[str, Callable] = {}
+        self._tools: dict[str, ToolMeta] = {}
 
-    def register(self, name: str, fn: Callable) -> None:
-        self._tools[name] = fn
+    def register(self, meta: ToolMeta) -> None:
+        self._tools[meta.name] = meta
 
-    def get(self, name: str) -> Callable:
-        if name not in self._tools:
-            raise ValueError(f"tool not found: {name}")
+    def list(self) -> list[ToolMeta]:
+        return [t for t in self._tools.values() if t.enabled]
+
+    def get(self, name: str) -> ToolMeta:
         return self._tools[name]
-
-    def list(self) -> list[str]:
-        return sorted(self._tools.keys())

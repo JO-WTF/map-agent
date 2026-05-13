@@ -1,17 +1,15 @@
-from typing import Callable
+from app.registry.schemas import SkillMeta
 
 
 class SkillRegistry:
     def __init__(self) -> None:
-        self._skills: dict[str, Callable] = {}
+        self._skills: dict[str, SkillMeta] = {}
 
-    def register(self, name: str, fn: Callable) -> None:
-        self._skills[name] = fn
+    def register(self, meta: SkillMeta) -> None:
+        self._skills[meta.name] = meta
 
-    def get(self, name: str) -> Callable:
-        if name not in self._skills:
-            raise ValueError(f"skill not found: {name}")
+    def list(self) -> list[SkillMeta]:
+        return [s for s in self._skills.values() if s.enabled]
+
+    def get(self, name: str) -> SkillMeta:
         return self._skills[name]
-
-    def list(self) -> list[str]:
-        return sorted(self._skills.keys())
