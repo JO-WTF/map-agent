@@ -13,6 +13,7 @@ type ChatStore = {
   messages: ChatMessage[];
   addMessage: (m: ChatMessage) => void;
   appendAssistantDelta: (content: string) => void;
+  finalizeLastAssistantMessage: (status: "done" | "error") => void;
 };
 
 export const useChatStore = create<ChatStore>((set) => ({
@@ -31,6 +32,17 @@ export const useChatStore = create<ChatStore>((set) => ({
       }
       const next = [...s.messages];
       next[next.length - 1] = { ...last, content: `${last.content}${content}` };
+      return { messages: next };
+    }),
+  finalizeLastAssistantMessage: (status) =>
+    set((s) => {
+      const next = [...s.messages];
+      for (let i = next.length - 1; i >= 0; i -= 1) {
+        if (next[i].role === "assistant" && next[i].status === "streaming") {
+          next[i] = { ...next[i], status };
+          break;
+        }
+      }
       return { messages: next };
     }),
 }));
