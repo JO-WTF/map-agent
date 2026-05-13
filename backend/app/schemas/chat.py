@@ -7,7 +7,6 @@ class ChatRequest(BaseModel):
     file_ids: list[str] = []
 
 
-class ChatResponse(BaseModel):
-    message: str
-    task_id: str | None = None
-    need_user_input: bool
+class ChatEvent(BaseModel):
+    event: str
+    data: dict

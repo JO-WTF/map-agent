@@ -11,4 +11,5 @@ class SupervisorGraph:
             "skill_name": skill,
             "need_user_input": need_user_input,
             "agent_message": "我会使用仓库客户分配 Skill 进行分析。" if not need_user_input else "请先上传客户文件。",
+            "steps": ["understand_intent", "select_skill_or_tool", "validate_inputs", "execute_skill", "build_response"],
         }
