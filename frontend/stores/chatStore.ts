@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { createId } from "@/lib/utils/createId";
 
 type ChatMessage = {
   id: string;
@@ -24,7 +25,7 @@ export const useChatStore = create<ChatStore>((set) => ({
         return {
           messages: [
             ...s.messages,
-            { id: crypto.randomUUID(), role: "assistant", content, createdAt: new Date().toISOString(), status: "streaming" },
+            { id: createId("msg"), role: "assistant", content, createdAt: new Date().toISOString(), status: "streaming" },
           ],
         };
       }

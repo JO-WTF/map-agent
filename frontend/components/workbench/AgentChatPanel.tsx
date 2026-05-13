@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { streamChat } from "@/lib/api/chat";
 import { useChatStore } from "@/stores/chatStore";
+import { createId } from "@/lib/utils/createId";
 
 export function AgentChatPanel() {
   const [message, setMessage] = useState("");
@@ -12,7 +13,7 @@ export function AgentChatPanel() {
       await streamChat({ session_id: "session_001", message, file_ids: [], context: {} });
     } catch (error) {
       addMessage({
-        id: crypto.randomUUID(),
+        id: createId("msg"),
         role: "system",
         content: error instanceof Error ? error.message : "发送失败，请稍后重试。",
         createdAt: new Date().toISOString(),

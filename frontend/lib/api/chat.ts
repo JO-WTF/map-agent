@@ -1,6 +1,6 @@
 import { parseSseEvent } from "@/lib/sse/parseSseEvent";
 import { handleAgentEvent } from "@/lib/sse/handleAgentEvent";
-import { API_PROXY_PREFIX } from "@/config/app";
+import { API_PROXY_PREFIX, BACKEND_BASE_URL } from "@/config/app";
 
 export async function streamChat(payload: Record<string, any>) {
   let res: Response;
@@ -11,11 +11,12 @@ export async function streamChat(payload: Record<string, any>) {
       body: JSON.stringify(payload),
     });
   } catch {
-    throw new Error("无法连接后端服务（http://localhost:3001）。请确认后端已启动。");
+    throw new Error(`无法连接后端服务（${BACKEND_BASE_URL}）。请确认后端已启动。`);
   }
 
   if (!res.ok || !res.body) {
-    throw new Error(`请求失败（${res.status}）。请检查后端服务状态。`);
+    const detail = await res.text().catch(() => "");
+    throw new Error(`请求失败（${res.status}）。${detail || "请检查前端代理与后端服务状态。"}`);
   }
 
   const reader = res.body.getReader();
